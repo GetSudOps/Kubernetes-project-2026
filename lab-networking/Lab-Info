@@ -1,0 +1,9 @@
+- Zidentyfikował żądanie listy gerundialnych form działań
+- Wystawienie Poda jako Service (ClusterIP) i NodePort, przetestowanie curl
+- Zainstalowanie Traefik (lub wykorzystanie wbudowanego w k3s)
+- Napisanie Ingress YAML: hosty, paths, backends
+- Zainstalowanie cert-manager: helm install cert-manager
+- Konfiguracja ClusterIssuer self-signed lub staging Let's Encrypt
+- Wystawienie Gitea przez Ingress HTTPS na gitea.local
+- Wygenerowanie certyfikatu przez cert-manager (self-signed CA)
+- Dodanie wpisu w /etc/hosts albo lokalny DNS
