@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo
+  labels:
+    app: demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+    ports:
+    - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clusterip
+spec:
+  selector:
+    app: demo
+  ports:
+  - port: 80 
+    targetPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport
+spec:
+  type: NodePort
+  selector: 
+    app: demo
+  ports:
+  - port: 80 # This is the port that the service will listen on within the cluster. It should match the port defined in the Ingress resource in ingress.yaml.
+    targetPort: 80 # This is the port that the service will forward traffic to on the pods. It should match the containerPort defined in the pod specification.
+    nodePort: 30000 # This is the port that will be exposed on each node in the cluster. You can access the service using <NodeIP>:30000 from outside the cluster.
+
+
+

@@ -1,0 +1,64 @@
+image:
+  registry: docker.io
+  repository: gitea/gitea
+  tag: latest
+  pullPolicy: IfNotPresent
+  rootless: false
+
+service:
+  http:
+    type: ClusterIP
+  ssh:
+    type: ClusterIP
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned-cluster-issuer # This annotation tells cert-manager to use the selfsigned-cluster-issuer defined in clusterissuer.yaml to generate a TLS certificate for this Ingress resource. The cert-manager will create a Certificate resource that references the ClusterIssuer, and it will generate a self-signed certificate for the hosts specified in the TLS section of this Ingress resource.
+  hosts:
+    - host: gitea.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: gitea-tls
+      hosts:
+        - gitea.local
+
+postgresql-ha:
+  enabled: false
+
+postgresql:
+  enabled: true
+  
+  global:
+    postgresql:
+      auth:
+        username: gitea
+        password: gitea
+        database: gitea
+
+valkey-cluster:
+  enabled: false
+valkey:
+  enabled: false
+
+gitea:
+  admin:
+    existingSecret: gitea-admin
+  config:
+    server:
+      DOMAIN: gitea.local
+      ROOT_URL: https://gitea.local/
+      SSH_PORT: 3022
+    database:
+      DB_TYPE: postgres
+      HOST: gitea-postgresql.gitea.svc.cluster.local:5432
+      NAME: gitea
+      USER: gitea
+      PASSWD: gitea
+
+persistence:
+  size: 20Gi
+  storageClass: local-path

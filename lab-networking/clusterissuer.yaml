@@ -1,0 +1,6 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer # This defines a ClusterIssuer resource, which is a cluster-wide resource that can be used to issue certificates for any namespace in the cluster. In this case, we are creating a self-signed ClusterIssuer that will generate self-signed certificates for any Certificate resource that references it.
+metadata:
+  name: selfsigned-cluster-issuer
+spec:
+  selfSigned: {} # This specifies that the ClusterIssuer will use a self-signed certificate. The cert-manager will generate a self-signed certificate for any Certificate resource that references this ClusterIssuer.
