@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: demo-statefulset 
+spec:
+  serviceName: "demo-service" # This is the name of the headless service that governs this StatefulSet. It must match the name of a Service in the same namespace.
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: demo-container
+        image: busybox
+        command: ["sleep", "3600"]
+        volumeMounts:
+        - name: demo-volume
+          mountPath: /data # This is the path where the volume will be mounted inside the container
+  volumeClaimTemplates:
+  - metadata:
+      name: demo-volume
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: demo-storageclass
+      resources:
+        requests:
+          storage: 1Gi

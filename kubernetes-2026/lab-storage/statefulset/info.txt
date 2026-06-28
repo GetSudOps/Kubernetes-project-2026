@@ -1,0 +1,3 @@
+• Napisz StatefulSet z volumeClaimTemplates
+• kubectl exec do Poda — utwórz dane testowe
+• Restart Poda i sprawdź że dane przeżyły
