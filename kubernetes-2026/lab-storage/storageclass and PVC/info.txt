@@ -1,2 +1,0 @@
-• Zobacz domyślny StorageClass: kubectl get sc
-• Stwórz PVC, zaobserwuj automatyczny PV (local-path)
